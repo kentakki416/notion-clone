@@ -16,6 +16,8 @@ Notion-CloneをNode.jsとtypescriptとreactで作成
 * PostmanによるテストAPI
 * react-router-domを使ったルーティング
 * Express Validatorのバリデーションチェック
+* Dockerによる環境構築
+* JWTを用いた認証
  
 # Requirement
  
