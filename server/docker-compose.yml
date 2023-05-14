@@ -1,0 +1,12 @@
+version: '3'
+services:
+  server:
+    build: .
+    container_name: notion-clone
+    volumes:
+      - .:/usr/src/app
+      # node_modulesはマウント対象から除外
+      - /usr/src/app/node_modules/
+    ports:
+      - 8080:8080
+    command: npm start
