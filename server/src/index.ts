@@ -1,15 +1,29 @@
-import * as http from "http";
+const express = require('express');
+const mongoose = require("mongoose")
+const app = express();
+const PORT = 8080;
+require("dotenv").config();
 
-const port = 8080; // ポート番号
+// ユーザー新規登録API
 
-// httpサーバーを設定する
-const server = http.createServer(
-  (request, response) => {
-    // サーバーにリクエストがあった時に実行される関数
-    response.end("Hello! Node.js with ");
-  }
-);
-// サーバーを起動してリクエストを待ち受け状態にする
-server.listen(port);
-// ログを出力する
-console.log(`http://localhost:${port} へアクセスください!!!`);
+// ユーザーログイン用API
+
+// DB接続
+try {
+  mongoose.connect(
+    process.env.MONGODB_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      user: process.env.MONGODB_USER,
+      pass: process.env.MONGODB_PASSWORD,
+      dbName: "notion-clone"
+    }
+  )
+  console.log("DBと接続中・・・")
+} catch(error) {
+  console.log(error);
+}
+
+app.listen(PORT, () => {
+  console.log("ローカルサーバー起動中・・・")
+})
