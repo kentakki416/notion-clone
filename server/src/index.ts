@@ -6,7 +6,7 @@ const port = 8080; // ポート番号
 const server = http.createServer(
   (request, response) => {
     // サーバーにリクエストがあった時に実行される関数
-    response.end("Hello! Node.js with ");
+    response.end("Hello! Node.js with test");
   }
 );
 // サーバーを起動してリクエストを待ち受け状態にする
