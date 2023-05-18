@@ -14,7 +14,7 @@ app.post("/register", async (req, res) => {
   try {
      // パスワードの暗号化
     req.body.password = CryptoJS.AES.encrypt(password, process.env.SECRET_KEY);
-    // ユーザーの新規作成
+    // ユーザー登録
     const user = await User.create(req.body)
   } catch(error) {
 
