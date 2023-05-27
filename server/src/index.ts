@@ -2,13 +2,18 @@ const express = require('express');
 const mongoose = require("mongoose")
 const CryptoJS = require("crypto-js")
 const JWT = require("jsonwebtoken");
+const {body} = require('express-validator')
 const User = require("./models/user")
 const app = express();
 const PORT = 8080;
 require("dotenv").config();
 
 // ユーザー新規登録API
-app.post("/register", async (req, res) => {
+app.post("/register", 
+  body("username").isLength({min:8}).withMessage("ユーザー名は８文字衣装である必要がある"), 
+  body("password").isLength({min:8}).withMessage("パスワードは８文字以上です"),
+  body("confirmPassword").isLength({min:8}).withMessage("確認用パスワードは８文字以上です"),
+  async (req, res) => {
   // パスワードの取得
   const password = req.body.password
 
