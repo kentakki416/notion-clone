@@ -18,13 +18,11 @@ async function connect() {
       pass: process.env.MONGODB_PASSWORD,
       dbName: "notion-clone"
     }
-  ).catch((error) => console.log(error))
-
-  console.log("接続完了")
+  )
 }
 
 // DB接続をポートの開放前に実行
-connect()
+connect().then(() => console.log("接続成功"), err => console.log(err))
 
 app.listen(PORT, () => {
   console.log("ローカルサーバー起動中・・・")
