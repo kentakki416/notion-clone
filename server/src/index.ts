@@ -27,3 +27,5 @@ connect().then(() => console.log("接続成功"), err => console.log(err))
 app.listen(PORT, () => {
   console.log("ローカルサーバー起動中・・・")
 })
+
+console.log("確認用");
