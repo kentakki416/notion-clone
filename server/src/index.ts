@@ -1,54 +1,11 @@
 const express = require('express');
 const mongoose = require("mongoose")
-const CryptoJS = require("crypto-js")
-const JWT = require("jsonwebtoken");
-const {body, validationResult} = require('express-validator')
-const User = require("./models/user")
 const app = express();
 const PORT = 8080;
 require("dotenv").config();
 
 app.use(express.json());
-
-// ユーザー新規登録API
-app.post("/register", 
-  body("username").isLength({min:8}).withMessage("ユーザー名は８文字以上である必要がある"), 
-  body("password").isLength({min:8}).withMessage("パスワードは８文字以上です"),
-  body("confirmPassword").isLength({min:8}).withMessage("確認用パスワードは８文字以上です"),
-  body("username").custom((value) => {
-    return User.findOne({username: value}).then((user) => {
-      if(user) {
-        return Promise.reject("このユーザーはすでに存在しています")
-      }
-    })
-  }),
-  (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({errors: errors.array()});
-    }
-    next()
-  },
-  async (req, res) => {
-  // パスワードの取得
-  const password = req.body.password
-
-  try {
-     // パスワードの暗号化
-    req.body.password = CryptoJS.AES.encrypt(password, process.env.SECRET_KEY);
-    // ユーザー登録
-    const user = await User.create(req.body)
-    // JWTの発行
-    const jwt = JWT.sign({ id: user._id}, process.env.TOKEN_SECRET_KEY, {
-      expiresIn: "24h",
-    });
-    return res.status(200).json({ user, jwt });
-  } catch(error) {
-    return res.status(500).json(error)
-  }
-})
-
-// ユーザーログイン用API
+app.use("/api", require("./routes/auth"));
 
 // DB接続
 try {
