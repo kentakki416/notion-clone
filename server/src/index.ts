@@ -8,8 +8,9 @@ app.use(express.json());
 app.use("/api", require("./routes/auth"));
 
 // DB接続
-try {
-  mongoose.connect(
+async function connect() {
+  console.log("DBと接続中・・・")
+  await mongoose.connect(
     process.env.MONGODB_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -17,11 +18,13 @@ try {
       pass: process.env.MONGODB_PASSWORD,
       dbName: "notion-clone"
     }
-  )
-  console.log("DBと接続中・・・")
-} catch(error) {
-  console.log(error);
+  ).catch((error) => console.log(error))
+
+  console.log("接続完了")
 }
+
+// DB接続をポートの開放前に実行
+connect()
 
 app.listen(PORT, () => {
   console.log("ローカルサーバー起動中・・・")
