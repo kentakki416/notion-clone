@@ -8,9 +8,11 @@ const app = express();
 const PORT = 8080;
 require("dotenv").config();
 
+app.use(express.json());
+
 // ユーザー新規登録API
 app.post("/register", 
-  body("username").isLength({min:8}).withMessage("ユーザー名は８文字衣装である必要がある"), 
+  body("username").isLength({min:8}).withMessage("ユーザー名は８文字以上である必要がある"), 
   body("password").isLength({min:8}).withMessage("パスワードは８文字以上です"),
   body("confirmPassword").isLength({min:8}).withMessage("確認用パスワードは８文字以上です"),
   body("username").custom((value) => {
